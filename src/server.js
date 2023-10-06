@@ -1,7 +1,6 @@
 const http = require("http");
 const url = require("url");
 const { User1, User2, User3 } = require("./dataUser");
-const { response1, response2 } = require("./response");
 
 const server = http.createServer((req, res) => {
   if (req.method === "GET") {
@@ -25,22 +24,24 @@ const server = http.createServer((req, res) => {
         res.end(error.message);
       }
     } else {
-      try {
-        res.setHeader("Content-Type", "application/json");
-        res.writeHead(404);
-        res.end(JSON.stringify(response1));
-      } catch (error) {
-        res.end(error.message);
-      }
-    }
-  } else {
-    try {
+      const response = {
+        status: "Not Found!!",
+        message: "Resource Not Found",
+      };
+
       res.setHeader("Content-Type", "application/json");
       res.writeHead(404);
-      res.end(JSON.stringify(response2));
-    } catch (error) {
-      res.end(error.message);
+      res.end(JSON.stringify(response));
     }
+  } else {
+    const response = {
+      status: "Tidak Diizinkan!!",
+      message: "Metode HTTP tidak diizinkan",
+    };
+
+    res.setHeader("Content-Type", "application/json");
+    res.writeHead(404);
+    res.end(JSON.stringify(response));
   }
 });
 
